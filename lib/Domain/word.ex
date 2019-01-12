@@ -22,6 +22,9 @@ defmodule Word do
     %Word.Events.Created{normalForm: normalForm, language: language}
   end
 
+  def apply(%Word{} = state, %Word.Events.Created{normalForm: normalForm, language: language}),
+     do: %Word{state | normalForm: normalForm, language: language}
+
 # def open_account(%BankAccount{}, _account_number, initial_balance)
 #   when initial_balance <= 0
 #  do
