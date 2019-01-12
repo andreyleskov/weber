@@ -28,3 +28,13 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 #     import_config "#{Mix.env()}.exs"
+config :commanded,
+  event_store_adapter: Commanded.EventStore.Adapters.EventStore
+
+config :eventstore, EventStore.Storage,
+  serializer: Commanded.Serialization.JsonSerializer,
+  username: "postgres",
+  password: "postgres",
+  database: "weber_dev",
+  hostname: "localhost",
+  pool_size: 10
