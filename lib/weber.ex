@@ -13,8 +13,15 @@ defmodule Weber.Application do
 
   """
   def start(_type, _args) do
-    IO.puts Mix.env
-    newWord = IO.gets "type a word in english to add it to the dictionary"
-    :ok = Weber.Router.dispatch(%Word.Commands.Create{normalForm: newWord,language: "en"})
+    children = [
+      Weber.Repo,
+    ]
+
+    opts = [strategy: :one_for_one, name: Conduit.Supervisor]
+    Supervisor.start_link(children, opts)
+
+    newWord = IO.gets "type a word in english to add it to the dictionary "
+    Task.start(fn -> Weber.Router.dispatch(%Word.Commands.Create{normalForm: newWord,language: "en"});
+               IO.puts "command execution completed" end)
   end
 end
