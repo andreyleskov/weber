@@ -1,4 +1,4 @@
-defmodule WordRouter do
+defmodule Weber.Router do
   use Commanded.Commands.Router
 
   identify Word, by: :normalForm

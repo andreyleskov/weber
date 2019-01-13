@@ -13,19 +13,22 @@ defmodule Nomisma.MixProject do
 
   # Run "mix help compile.app" to learn about applications.
   def application do
-    [
-      extra_applications: [:logger, :eventstore]
-    ]
+  [
+      mod: {Weber.Application, []},
+      extra_applications: [:logger, :commanded, :eventstore,],
+  ]
   end
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
       {:commanded, "~> 0.17"},
-      {:poison, "~> 3.1 or ~> 4.0"},
       {:poolboy, "~> 1.5.1"},
       #{:eventstore, ">= 0.14.0"},
-      {:eventstore, github: "commanded/eventstore", branch: "master"}
+      {:eventstore, github: "commanded/eventstore", branch: "master", override: true},
+      {:commanded_eventstore_adapter, "~> 0.4"},
+      {:ecto_sql, "~> 3.0"},
+      {:postgrex, ">= 0.0.0"}
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
     ]

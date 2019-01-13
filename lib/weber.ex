@@ -1,4 +1,4 @@
-defmodule Weber do
+defmodule Weber.Application do
   @moduledoc """
   Documentation for Weber.
   """
@@ -12,10 +12,9 @@ defmodule Weber do
       :world
 
   """
-  def run do
+  def start(_type, _args) do
     IO.puts Mix.env
-    IO.puts "type a word in english to add it to the dictionary"
-    newWord = IO.gets "yes or no? "
-    :ok = WordRouter.dispatch(%Word.Commands.Create{normalForm: newWord, language: "en"})
+    newWord = IO.gets "type a word in english to add it to the dictionary"
+    :ok = Weber.Router.dispatch(%Word.Commands.Create{normalForm: newWord,language: "en"})
   end
 end
