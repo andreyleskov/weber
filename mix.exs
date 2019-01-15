@@ -15,7 +15,7 @@ defmodule Nomisma.MixProject do
   def application do
   [
       mod: {Weber.Application, []},
-      extra_applications: [:logger, :commanded, :eventstore,],
+      extra_applications: [:logger, :commanded, :eventstore],
   ]
   end
 

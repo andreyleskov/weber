@@ -3,10 +3,10 @@ defmodule Weber.Projection.Repo do
     otp_app: :weber,
     adapter: Ecto.Adapters.Postgres
 
-  def init(_type, config) do
-    IO.inspect(config)
-    {:ok, Keyword.put(config, :url, System.get_env("DATABASE_URL"))}
-  end
+ # def init(_type, config) do
+ #   IO.inspect(config)
+ #   {:ok, Keyword.put(config, :url, System.get_env("DATABASE_URL"))}
+ # end
 end
 
 defmodule Weber.Journal.Repo do
@@ -14,9 +14,9 @@ defmodule Weber.Journal.Repo do
     otp_app: :weber,
     adapter: Ecto.Adapters.Postgres
 
-    def init(_type, config) do
-      IO.inspect(config)
-      {:ok, Keyword.put(config, :url, System.get_env("DATABASE_URL"))}
-    end
+   # def init(_type, config) do
+   #   IO.inspect(config)
+   #   {:ok, Keyword.put(config, :url, System.get_env("DATABASE_URL"))}
+   # end
 end
 

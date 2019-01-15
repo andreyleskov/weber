@@ -3,7 +3,7 @@ defmodule Weber.Repo.Migrations.WordsRegister do
 
   def change do
     create table(:word_register) do
-      add :normal_form, :string
+      add :normalForm, :string
       add :language, :string
     end
   end
