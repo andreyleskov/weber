@@ -1,4 +1,4 @@
-defmodule Nomisma.MixProject do
+defmodule Weber.MixProject do
   use Mix.Project
 
   def project do
@@ -18,6 +18,10 @@ defmodule Nomisma.MixProject do
       extra_applications: [:logger, :commanded, :eventstore],
   ]
   end
+
+  # Include `test/support` files in test environment
+ #defp elixirc_paths(:test), do: ["lib", "test/support"]
+ # defp elixirc_paths(_), do: ["lib"]
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do

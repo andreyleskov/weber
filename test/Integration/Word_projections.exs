@@ -1,12 +1,8 @@
 defmodule WordTest do
+  #use Weber.DataCase
   use ExUnit.Case
-  #use Word
-  #use Word.Commands
-  #use Word.Events
-
-  #doctest WordTest
-
-  test "creates the world" do
+  @tag unit
+  test "Given a create new word command When executing Then has word registry projected" do
 
     assert Word.execute(%Word{}, %Word.Commands.Create{normalForm: "testMe", language: "En"}) ==
         %Word.Events.Created{normalForm: "testMe", language: "En"}

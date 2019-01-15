@@ -8,15 +8,7 @@ config :weber, Weber.Projection.Repo,
   password: "postgres",
   hostname: "localhost"
 
-#config :weber, Weber.Jornal.Repo,
-#  serializer: Commanded.Serialization.JsonSerializer,
-##  username: "postgres",
-#  password: "postgres",
-#  database: "weber_dev",
-#  hostname: "localhost",
-#  pool_size: 10
-
-#for mix tasks
+#for mix ecto tasks
 config :weber, ecto_repos: [Weber.Projection.Repo]
 
 config :commanded_ecto_projections,
