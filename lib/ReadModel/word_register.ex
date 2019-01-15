@@ -1,7 +1,7 @@
-defmodule Weber.WordRegister do
+defmodule Weber.Projection.WordRegister do
   use Ecto.Schema
 
-  schema "wordRegister" do
+  schema "word_register" do
     field :normalForm, :string
     field :language, :string
   end

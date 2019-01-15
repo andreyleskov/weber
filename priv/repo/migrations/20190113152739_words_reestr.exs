@@ -1,4 +1,4 @@
-defmodule Weber.Repo.Migrations.WordsReestr do
+defmodule Weber.Repo.Migrations.WordsRegister do
   use Ecto.Migration
 
   def change do
