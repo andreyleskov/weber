@@ -1,4 +1,4 @@
-defmodule Weber.DataCase do
+defmodule Weber.Tests.DataCase do
   use ExUnit.CaseTemplate
   alias Weber.Application
 
@@ -15,11 +15,11 @@ defmodule Weber.DataCase do
    # {:ok, _} = Application.ensure_all_started(:weber)
 
     on_exit(fn ->
-      :ok = Application.stop(:weber)
-      :ok = Application.stop(:commanded)
-      :ok = Application.stop(:eventstore)
+   ##   :ok = Application.stop(:weber)
+   #   :ok = Application.stop(:commanded)
+    #  :ok = Application.stop(:eventstore)
 
-      Application.Storage.reset!()
+      Weber.Tests.Storage.reset!()
     end)
 
     :ok

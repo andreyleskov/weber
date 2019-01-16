@@ -1,4 +1,4 @@
-defmodule Weber.Application.Storage do
+defmodule Weber.Tests.Storage do
   @doc """
   Clear the event store and read store databases
   """
@@ -27,7 +27,7 @@ defmodule Weber.Application.Storage do
     """
     TRUNCATE TABLE
       word_register,
-      projection_versions,
+      projection_versions
     RESTART IDENTITY
     CASCADE;
     """
