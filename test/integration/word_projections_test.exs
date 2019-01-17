@@ -15,13 +15,13 @@ defmodule Weber.Tests.Integration.WordProjection do
     end)
 
 
-    :timer.sleep(2000);
+   # :timer.sleep(1000);
 
     wordProjection = WordByNormalForm.new("testMe") |>
                      Weber.Projection.Repo.one()
 
-    assert wordProjection ==
-       %Weber.Projection.WordRegister{normalForm: "testMe", language: "En"}
+    assert wordProjection =
+       %Weber.Projection.WordRegister{normalForm: "testMe", language: "En", id: 1}
 
   end
 end
