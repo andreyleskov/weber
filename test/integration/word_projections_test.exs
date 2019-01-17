@@ -6,9 +6,9 @@ defmodule Weber.Tests.Integration.WordProjection do
 
   @tag :integration
   test "Given a create new word command When executing Then receive event And has word registry created" do
-    expectedEvent = %Word.Events.Created{normalForm: "testMe", language: "En"}
+    expectedEvent = %Word.Events.Created{word: "testMe", language: "En"}
 
-    :ok = Weber.Router.dispatch(%Word.Commands.Create{normalForm: "testMe", language: "En"}, consistency: :strong)
+    :ok = Weber.Router.dispatch(%Word.Commands.Create{word: "testMe", language: "En"}, consistency: :strong)
 
     assert_receive_event(Word.Events.Created, fn event ->
       assert event == expectedEvent

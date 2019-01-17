@@ -1,6 +1,6 @@
 defmodule Word.Commands do
   defmodule Create do
-    defstruct [:normalForm, :language]
+    defstruct [:word, :language]
   end
 
   defmodule AddSynonym do
@@ -10,7 +10,7 @@ end
 
 defmodule Word.Events do
   defmodule Created do
-    defstruct [:normalForm, :language]
+    defstruct [:word, :language]
   end
 
   defmodule SynonymAdded do
@@ -21,7 +21,7 @@ end
 
 defmodule Word do
 
-  defstruct [:normalForm,
+  defstruct [:word,
              :language,
              :explanations,
              :antonyms,
@@ -31,16 +31,16 @@ defmodule Word do
   alias Word.Commands
   alias Word.Events
 # public command API
-  def execute(%Word{normalForm: nil},
-              %Word.Commands.Create{normalForm: normalForm, language: language})
-    when normalForm != nil and language != nil
+  def execute(%Word{word: nil},
+              %Word.Commands.Create{word: word, language: language})
+    when word != nil and language != nil
   do
-    %Word.Events.Created{normalForm: normalForm, language: language}
+    %Word.Events.Created{word: word, language: language}
   end
 
-  def execute(%Word{normalForm: normalForm, synonyms: synonyms},
+  def execute(%Word{word: word, synonyms: synonyms},
               %Word.Commands.AddSynonym{word: word, synonym: synonym})
-    when normalForm != nil and normalForm == word
+    when word != nil and word == word
   do
     if(synonym not in synonyms) do
       %Word.Events.SynonymAdded{word: word, synonym: synonym}
@@ -49,13 +49,13 @@ defmodule Word do
     end
   end
 
-  def apply(%Word{} = state, %Events.Created{normalForm: normalForm, language: language})
+  def apply(%Word{} = state, %Events.Created{word: word, language: language})
   do
-      %Word{state | normalForm: normalForm, language: language}
+      %Word{state | word: word, language: language}
   end
 
 
-  def apply(%Word{normalForm: normalForm, synonyms: synonyms} = state,
+  def apply(%Word{word: word, synonyms: synonyms} = state,
             %Events.SynonymAdded{word: word, synonym: synonym})
   do
     %Word{state | synonyms: [synonym | synonyms]}

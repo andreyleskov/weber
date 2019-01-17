@@ -3,8 +3,8 @@ defmodule Weber.Word.Queries.WordByNormalForm do
 
   alias Weber.Projection.WordRegister
 
-  def new(normalForm) do
+  def new(word) do
     from w in WordRegister,
-    where: w.normalForm == ^normalForm
+    where: w.word == ^word
   end
 end
