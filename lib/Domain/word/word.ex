@@ -2,18 +2,34 @@ defmodule Word.Commands do
   defmodule Create do
     defstruct [:normalForm, :language]
   end
+
+  defmodule AddSynonym do
+    defstruct [:word, :synonym]
+  end
 end
 
 defmodule Word.Events do
   defmodule Created do
     defstruct [:normalForm, :language]
   end
+
+  defmodule SynonymAdded do
+    defstruct [:word, :synonym]
+  end
+
 end
 
 defmodule Word do
 
-  defstruct [:normalForm, :language, :explanation, :antonyms, :synonyms, :examples, :images]
-
+  defstruct [:normalForm,
+             :language,
+             :explanations,
+             :antonyms,
+             :examples,
+             :image,
+             synonyms: []]
+  alias Word.Commands
+  alias Word.Events
 # public command API
   def execute(%Word{normalForm: nil},
               %Word.Commands.Create{normalForm: normalForm, language: language})
@@ -22,25 +38,26 @@ defmodule Word do
     %Word.Events.Created{normalForm: normalForm, language: language}
   end
 
-  def apply(%Word{} = state, %Word.Events.Created{normalForm: normalForm, language: language}),
-     do: %Word{state | normalForm: normalForm, language: language}
+  def execute(%Word{normalForm: normalForm, synonyms: synonyms},
+              %Word.Commands.AddSynonym{word: word, synonym: synonym})
+    when normalForm != nil and normalForm == word
+  do
+    if(synonym not in synonyms) do
+      %Word.Events.SynonymAdded{word: word, synonym: synonym}
+    else
+      {:error, :dublicated_synonym}
+    end
+  end
 
-# def open_account(%BankAccount{}, _account_number, initial_balance)
-#   when initial_balance <= 0
-#  do
-#    {:error, :initial_balance_must_be_above_zero}
-#  end
+  def apply(%Word{} = state, %Events.Created{normalForm: normalForm, language: language})
+  do
+      %Word{state | normalForm: normalForm, language: language}
+  end
 
-#  def open_account(%BankAccount{}, _account_number, _initial_balance) do
-#    {:error, :account_already_opened}
-#  end
 
-  # state mutators
-
-#  def apply(%BankAccount{} = account, %BankAccountOpened{account_number: account_number, initial_balance: initial_balance}) do
-#    %BankAccount{account |
-#      account_number: account_number,
-#      balance: initial_balance
-#    }
-#  end
+  def apply(%Word{normalForm: normalForm, synonyms: synonyms} = state,
+            %Events.SynonymAdded{word: word, synonym: synonym})
+  do
+    %Word{state | synonyms: [synonym | synonyms]}
+end
 end
