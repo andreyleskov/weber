@@ -29,18 +29,24 @@ defmodule Weber.Application do
     if(Mix.env() != :test) do
       create_new_word()
       :timer.sleep(2000);
+
     end
+
     task
   end
 
   def create_new_word() do
     newWord = IO.gets "type a word in english to add it to the dictionary "
-    executionResult = Weber.Router.dispatch(%Word.Commands.Create{normalForm: newWord,language: "en"})
+    executionResult = Weber.Router.dispatch(%Word.Commands.Create{word: newWord,language: "en"})
 
     case executionResult do
       :ok ->  IO.puts "word added"
       {:error, reason} -> IO.puts "Could not add word due to error: #{reason}"
     end
+  end
+
+  def stop(state) do
+     :ok
   end
 
 end

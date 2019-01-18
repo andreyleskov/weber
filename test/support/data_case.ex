@@ -12,16 +12,6 @@ defmodule Weber.Tests.DataCase do
   end
 
   setup do
-   # {:ok, _} = Application.ensure_all_started(:weber)
-
-    on_exit(fn ->
-   ##   :ok = Application.stop(:weber)
-   #   :ok = Application.stop(:commanded)
-    #  :ok = Application.stop(:eventstore)
-
-      Weber.Tests.Storage.reset!()
-    end)
-
-    :ok
+    Weber.Tests.Storage.reset!()
   end
 end
