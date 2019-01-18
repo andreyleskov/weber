@@ -1,6 +1,6 @@
 # Weber
 
-Weber is a assesmenet task used to demonstrate coding skills for Elixir and some practicies, like DDD, ES, and CQRS
+Weber is an assesmenet task used to demonstrate coding skills for Elixir and some practicies, like DDD, ES, and CQRS
 It is a command line-based dictionary application, similar to https://www.merriam-webster.com/
 Functionalty available:
 
