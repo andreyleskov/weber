@@ -21,7 +21,7 @@ defmodule Weber.Tests.Integration.WordProjection do
                      Weber.Projection.Repo.one()
 
     assert wordProjection =
-       %Weber.Projection.WordRegister{normalForm: "testMe", language: "En", id: 1}
+       %Weber.Projection.WordRegister{normalForm: "testMe", language: "En"}
 
   end
 end

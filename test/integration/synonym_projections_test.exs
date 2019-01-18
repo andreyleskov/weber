@@ -24,7 +24,7 @@ defmodule Weber.Tests.Projection.Synonym do
                         Weber.Projection.Repo.one()
 
     assert wordProjection =
-       %Weber.Word.Projection.Synonym{word: "run", synonym: "dash", id: 1}
+       %Weber.Word.Projection.Synonym{word: "run", synonym: "dash"}
 
   end
 end
