@@ -6,5 +6,6 @@ defmodule Weber.Router do
             Word.Commands.AddSynonym,
             Word.Commands.Describe,
             Word.Commands.AddAntonym,
-            Word.Commands.ProvideExamples], to: Word
+            Word.Commands.ProvideExamples,
+            Word.Commands.Illustrate], to: Word
 end

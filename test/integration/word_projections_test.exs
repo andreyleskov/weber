@@ -58,4 +58,22 @@ defmodule Weber.Tests.Integration.WordProjection do
     assert wordProjection.examples == "best of the best"
   end
 
+  @tag :integration
+  @tag :illustration
+  test "Given a word AND illustrate command When executing Then receive event And illustration updated" do
+    :ok = Weber.Router.dispatch(%Word.Commands.Create{word: "best"}, consistency: :strong)
+    illustration = %Word.Image{binary: <<1>>, mime: "none"}
+    :ok = Weber.Router.dispatch(%Word.Commands.Illustrate{word: "best", illustration: illustration}, consistency: :strong)
+
+    assert_receive_event(Word.Events.Illustrated, fn event ->
+      assert event == %Word.Events.Illustrated{word: "best", illustration: illustration}
+    end)
+
+    wordProjection = WordByNormalForm.new("best") |>
+                     Weber.Projection.Repo.one()
+
+    assert wordProjection.normalForm == "best"
+    assert wordProjection.illustration_binary == illustration.binary
+    assert wordProjection.illustration_mime == illustration.mime
+  end
 end

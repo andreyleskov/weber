@@ -14,6 +14,10 @@ defmodule Weber.Projector.WordRegister do
     update_word(multi, word, description: description)
   end
 
+  project %Word.Events.Illustrated{word: word, illustration: %Word.Image{binary: binary, mime: mime}} do
+    update_word(multi, word, illustration_binary: binary, illustration_mime: mime)
+  end
+
   defp update_word(multi, normalForm, changes) do
     Ecto.Multi.update_all(multi, :word_register, word_query(normalForm), set: changes)
   end

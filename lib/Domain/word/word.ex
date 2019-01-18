@@ -1,9 +1,13 @@
-defmodule Word do
 
+defmodule Word.Image do
+  defstruct [:mime, binary: <<0>>]
+end
+
+defmodule Word do
   defstruct [:word,
              :examples,
-             :image,
              :description,
+             illustration: %Word.Image{},
              synonyms: [],
              antonyms: [],
             ]
@@ -52,6 +56,14 @@ defmodule Word do
     end
   end
 
+  def execute(%Word{word: word, antonyms: antonyms},
+              %Word.Commands.Illustrate{word: word, illustration: %Word.Image{binary: binary, mime: mime} = illustration})
+  when word != nil and word == word and mime != "" and binary != nil and mime != nil
+  do
+    #TODO: place some illustration consistency check according to its MIME
+    %Word.Events.Illustrated{word: word, illustration: illustration}
+  end
+
   def apply(%Word{} = state, %Events.Created{word: word, description: description})
   do
       %Word{state | word: word, description: description}
@@ -80,4 +92,11 @@ defmodule Word do
   do
     %Word{state | examples: examples}
   end
+
+  def apply(%Word{} = state,
+            %Events.Illustrated{illustration: illustration})
+  do
+    %Word{state | illustration: illustration}
+  end
+
 end

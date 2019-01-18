@@ -6,6 +6,8 @@ defmodule Weber.Repo.Migrations.WordsRegister do
       add :normalForm, :string, primary_key: true
       add :description, :text
       add :examples, :text
+      add :illustration_binary, :binary
+      add :illustration_mime, :string
     end
   end
 end

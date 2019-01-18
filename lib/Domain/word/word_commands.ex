@@ -18,4 +18,8 @@ defmodule Word.Commands do
   defmodule ProvideExamples do
     defstruct [:word, :examples]
   end
+
+  defmodule Illustrate do
+    defstruct [:word, illustration: %Word.Image{}]
+  end
 end

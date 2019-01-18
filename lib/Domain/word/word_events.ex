@@ -18,4 +18,8 @@ defmodule Word.Events do
   defmodule AntonymAdded do
     defstruct [:word, :antonym]
   end
+
+  defmodule Illustrated do
+    defstruct [:word, illustration: %Word.Image{}]
+  end
 end

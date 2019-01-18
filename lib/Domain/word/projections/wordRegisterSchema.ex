@@ -5,5 +5,7 @@ defmodule Weber.Projection.WordRegister do
   schema "word_register" do
     field :description, :string
     field :examples, :string
+    field :illustration_binary, :binary
+    field :illustration_mime, :string
   end
 end
