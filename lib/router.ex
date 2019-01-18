@@ -5,5 +5,6 @@ defmodule Weber.Router do
   dispatch [Word.Commands.Create,
             Word.Commands.AddSynonym,
             Word.Commands.Describe,
-            Word.Commands.AddAntonym], to: Word
+            Word.Commands.AddAntonym,
+            Word.Commands.ProvideExamples], to: Word
 end

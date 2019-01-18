@@ -5,6 +5,7 @@ defmodule Weber.Repo.Migrations.WordsRegister do
     create table(:word_register, primary_key: false) do
       add :normalForm, :string, primary_key: true
       add :description, :text
+      add :examples, :text
     end
   end
 end

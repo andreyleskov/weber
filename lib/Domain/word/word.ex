@@ -1,40 +1,3 @@
-defmodule Word.Commands do
-  defmodule Create do
-    defstruct [:word, :description]
-  end
-
-  defmodule AddSynonym do
-    defstruct [:word, :synonym]
-  end
-
-  defmodule Describe do
-    defstruct [:word, :description]
-  end
-
-  defmodule AddAntonym do
-    defstruct [:word, :antonym]
-  end
-end
-
-defmodule Word.Events do
-  defmodule Created do
-    defstruct [:word, :description]
-  end
-
-  defmodule Described do
-    defstruct [:word, :description]
-  end
-
-  defmodule SynonymAdded do
-    defstruct [:word, :synonym]
-  end
-
-  defmodule AntonymAdded do
-    defstruct [:word, :antonym]
-  end
-
-end
-
 defmodule Word do
 
   defstruct [:word,
@@ -48,7 +11,7 @@ defmodule Word do
   alias Word.Events
   def execute(%Word{word: nil},
               %Word.Commands.Create{word: word, description: description})
-    when word != nil and description != nil
+    when word != nil
   do
     %Word.Events.Created{word: word, description: description}
   end
@@ -69,6 +32,13 @@ defmodule Word do
     when word != nil and word == cword
   do
       %Word.Events.Described{word: word, description: description}
+  end
+
+  def execute(%Word{word: word},
+              %Word.Commands.ProvideExamples{word: cword, examples: examples})
+  when word != nil and word == cword
+  do
+    %Word.Events.ExamplesProvided{word: word, examples: examples}
   end
 
   def execute(%Word{word: word, antonyms: antonyms},
@@ -103,5 +73,11 @@ defmodule Word do
             %Events.AntonymAdded{word: word, antonym: antonym})
   do
     %Word{state | antonyms: [antonym | antonyms]}
+  end
+
+  def apply(%Word{} = state,
+            %Events.ExamplesProvided{examples: examples})
+  do
+    %Word{state | examples: examples}
   end
 end

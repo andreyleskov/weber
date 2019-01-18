@@ -4,5 +4,6 @@ defmodule Weber.Projection.WordRegister do
   @primary_key {:normalForm, :string, autogenerate: false}
   schema "word_register" do
     field :description, :string
+    field :examples, :string
   end
 end

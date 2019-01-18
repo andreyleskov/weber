@@ -42,6 +42,7 @@ defmodule Weber.Tests.Storage do
     TRUNCATE TABLE
       word_register,
       synonyms,
+      antonyms,
       projection_versions
     RESTART IDENTITY
     CASCADE;
