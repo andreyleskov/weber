@@ -6,11 +6,19 @@ defmodule Word.Commands do
   defmodule AddSynonym do
     defstruct [:word, :synonym]
   end
+
+  defmodule Describe do
+    defstruct [:word, :description]
+  end
 end
 
 defmodule Word.Events do
   defmodule Created do
     defstruct [:word, :language]
+  end
+
+  defmodule Described do
+    defstruct [:word, :description]
   end
 
   defmodule SynonymAdded do
@@ -23,14 +31,14 @@ defmodule Word do
 
   defstruct [:word,
              :language,
-             :explanations,
-             :antonyms,
              :examples,
              :image,
-             synonyms: []]
+             :description,
+             synonyms: [],
+             antonyms: [],
+            ]
   alias Word.Commands
   alias Word.Events
-# public command API
   def execute(%Word{word: nil},
               %Word.Commands.Create{word: word, language: language})
     when word != nil and language != nil
@@ -49,6 +57,13 @@ defmodule Word do
     end
   end
 
+  def execute(%Word{word: word},
+              %Word.Commands.Describe{word: cword, description: description})
+    when word != nil and word == cword
+  do
+      %Word.Events.Described{word: word, description: description}
+  end
+
   def apply(%Word{} = state, %Events.Created{word: word, language: language})
   do
       %Word{state | word: word, language: language}
@@ -59,5 +74,11 @@ defmodule Word do
             %Events.SynonymAdded{word: word, synonym: synonym})
   do
     %Word{state | synonyms: [synonym | synonyms]}
-end
+  end
+
+  def apply(%Word{} = state, %Events.Described{word: word, description: description})
+  do
+      %Word{state | word: word, description: description}
+  end
+
 end
