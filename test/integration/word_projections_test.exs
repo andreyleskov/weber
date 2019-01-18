@@ -22,4 +22,22 @@ defmodule Weber.Tests.Integration.WordProjection do
        %Weber.Projection.WordRegister{normalForm: "testMe", description: "En"}
 
   end
+  @tag :integration
+  @tag :word_description
+  test "Given a word AND update description command When executing Then receive event And description updated" do
+    :ok = Weber.Router.dispatch(%Word.Commands.Create{word: "best", description: "none"}, consistency: :strong)
+    :ok = Weber.Router.dispatch(%Word.Commands.Describe{word: "best", description: "of the best"}, consistency: :strong)
+
+    assert_receive_event(Word.Events.Described, fn event ->
+      assert event == %Word.Events.Described{word: "best", description: "of the best"}
+    end)
+
+    wordProjection = WordByNormalForm.new("best") |>
+                     Weber.Projection.Repo.one()
+
+    assert wordProjection =
+       %Weber.Projection.WordRegister{normalForm: "best", description: "of the best"}
+  end
+
+
 end

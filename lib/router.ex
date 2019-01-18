@@ -3,5 +3,6 @@ defmodule Weber.Router do
 
   identify Word, by: :word
   dispatch [Word.Commands.Create,
-            Word.Commands.AddSynonym], to: Word
+            Word.Commands.AddSynonym,
+            Word.Commands.Describe], to: Word
 end
