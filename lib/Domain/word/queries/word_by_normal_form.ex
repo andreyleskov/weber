@@ -5,6 +5,6 @@ defmodule Weber.Word.Queries.WordByNormalForm do
 
   def new(word) do
     from w in WordRegister,
-    where: w.word == ^word
+    where: w.normalForm == ^word
   end
 end

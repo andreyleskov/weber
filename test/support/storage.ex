@@ -3,17 +3,25 @@ defmodule Weber.Tests.Storage do
   Clear the event store and read store databases
   """
   def reset! do
+    :ok = Application.stop(:weber)
+    :ok = Application.stop(:commanded)
+    :ok = Application.stop(:eventstore)
+
     reset_eventstore()
     reset_readstore()
+
+   {:ok, _} = Application.ensure_all_started(:weber)
   end
 
   defp reset_eventstore do
-    config = EventStore.Config.parsed() |> EventStore.Config.default_postgrex_opts()
+    config = EventStore.Config.parsed()
+          |> EventStore.Config.default_postgrex_opts()
 
     {:ok, conn} = Postgrex.start_link(config)
     IO.puts "resetting event storage"
     #IO puts inspect(conn)
     EventStore.Storage.Initializer.reset!(conn)
+
     Postgrex.query!(conn, truncate_subscription_tables(), [])
     IO.puts "event storage resetted"
 

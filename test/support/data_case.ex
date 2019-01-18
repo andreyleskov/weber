@@ -1,6 +1,5 @@
 defmodule Weber.Tests.DataCase do
   use ExUnit.CaseTemplate
-  alias Weber.Application
 
   using do
     quote do
@@ -13,5 +12,6 @@ defmodule Weber.Tests.DataCase do
 
   setup do
     Weber.Tests.Storage.reset!()
+    :ok
   end
 end
