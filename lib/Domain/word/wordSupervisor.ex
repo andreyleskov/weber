@@ -8,7 +8,8 @@ defmodule Weber.Word.Supervisor do
   def init(_arg) do
     Supervisor.init([
       Projector.WordRegister,
-      Weber.Word.Projections.Synonym.Projector
+      Weber.Word.Projections.Synonym.Projector,
+      Weber.Word.Projections.Antonym.Projector
     ], strategy: :one_for_one)
   end
 end
