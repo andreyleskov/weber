@@ -10,6 +10,10 @@ defmodule Word.Commands do
   defmodule Describe do
     defstruct [:word, :description]
   end
+
+  defmodule AddAntonym do
+    defstruct [:word, :antonym]
+  end
 end
 
 defmodule Word.Events do
@@ -23,6 +27,10 @@ defmodule Word.Events do
 
   defmodule SynonymAdded do
     defstruct [:word, :synonym]
+  end
+
+  defmodule AntonymAdded do
+    defstruct [:word, :antonym]
   end
 
 end
@@ -63,6 +71,17 @@ defmodule Word do
       %Word.Events.Described{word: word, description: description}
   end
 
+  def execute(%Word{word: word, antonyms: antonyms},
+              %Word.Commands.AddAntonym{word: word, antonym: antonym})
+  when word != nil and word == word
+  do
+    if(antonym not in antonyms) do
+      %Word.Events.AntonymAdded{word: word, antonym: antonym}
+    else
+      {:error, :dublicated_antonym}
+    end
+  end
+
   def apply(%Word{} = state, %Events.Created{word: word, description: description})
   do
       %Word{state | word: word, description: description}
@@ -80,4 +99,9 @@ defmodule Word do
       %Word{state | word: word, description: description}
   end
 
+  def apply(%Word{word: word, antonyms: antonyms} = state,
+            %Events.AntonymAdded{word: word, antonym: antonym})
+  do
+    %Word{state | antonyms: [antonym | antonyms]}
+  end
 end
