@@ -37,7 +37,7 @@ defmodule Weber.Application do
 
   def create_new_word() do
     newWord = IO.gets "type a word in english to add it to the dictionary "
-    executionResult = Weber.Router.dispatch(%Word.Commands.Create{word: newWord,language: "en"})
+    executionResult = Weber.Router.dispatch(%Word.Commands.Create{word: newWord,description: "en"})
 
     case executionResult do
       :ok ->  IO.puts "word added"

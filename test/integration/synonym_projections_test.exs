@@ -9,7 +9,7 @@ defmodule Weber.Tests.Projection.Synonym do
   test "Given a word And add synonym command When executing Then receive event And has synonyms projection created" do
 
 
-    :ok = Weber.Router.dispatch(%Word.Commands.Create{word: "run", language: "En"}, consistency: :strong)
+    :ok = Weber.Router.dispatch(%Word.Commands.Create{word: "run", description: "En"}, consistency: :strong)
     :ok = Weber.Router.dispatch(%Word.Commands.AddSynonym{word: "run", synonym: "dash"}, consistency: :strong)
 
     expectedEvent = %Word.Events.SynonymAdded{word: "run", synonym: "dash"}
@@ -27,4 +27,5 @@ defmodule Weber.Tests.Projection.Synonym do
        %Weber.Word.Projection.Synonym{word: "run", synonym: "dash"}
 
   end
+
 end

@@ -3,6 +3,6 @@ defmodule Weber.Projection.WordRegister do
 
   @primary_key {:normalForm, :string, autogenerate: false}
   schema "word_register" do
-    field :language, :string
+    field :description, :string
   end
 end
