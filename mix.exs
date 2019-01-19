@@ -3,7 +3,7 @@ defmodule Weber.MixProject do
 
   def project do
     [
-      app: :weber,
+      app: :weber, escript: escript(),
       version: "0.1.0",
       elixir: "~> 1.7",
       start_permanent: Mix.env() == :prod,
@@ -24,6 +24,10 @@ defmodule Weber.MixProject do
  defp elixirc_paths(:test), do: ["lib", "test/support","test/unit","test/integration"]
  defp elixirc_paths(_), do: ["lib"]
 
+ defp escript do
+  [main_module: Weber.CLI]
+ end
+
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
@@ -34,9 +38,8 @@ defmodule Weber.MixProject do
       {:commanded_eventstore_adapter, "~> 0.4"},
       {:ecto_sql, "~> 3.0.4", override: true},
       {:postgrex, ">= 0.0.0"},
-      {:commanded_ecto_projections, ">= 0.7.1"}
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
+      {:commanded_ecto_projections, ">= 0.7.1"},
+      {:optimus, "~> 0.1.0"},
     ]
   end
 end

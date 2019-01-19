@@ -24,15 +24,7 @@ defmodule Weber.Application do
     opts = [strategy: :one_for_one,
             name: Weber.Supervisor]
 
-    task = Supervisor.start_link(children, opts)
-
-    if(Mix.env() != :test) do
-      create_new_word()
-      :timer.sleep(2000);
-
-    end
-
-    task
+    Supervisor.start_link(children, opts)
   end
 
   def create_new_word() do
