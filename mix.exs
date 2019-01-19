@@ -21,7 +21,7 @@ defmodule Weber.MixProject do
   end
 
   # Include `test/support` files in test environment
- defp elixirc_paths(:test), do: ["lib", "test/support","test/unit","test/integration"]
+ defp elixirc_paths(:test), do: ["lib", "test/support","test/unit","test/projection","test/cli"]
  defp elixirc_paths(_), do: ["lib"]
 
  defp escript do
