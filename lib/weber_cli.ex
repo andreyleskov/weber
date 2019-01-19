@@ -54,6 +54,7 @@ defmodule Weber.CLI do
       parser: :string
     ]
 
+    commands =
     Optimus.new!(
       name: "Weber",
       description: "A simple dictionary application",
@@ -67,11 +68,12 @@ defmodule Weber.CLI do
           name: "create",
           about: "Creates a new word",
           args: [
-            word:  word_argument,
-            description: description_argument,
-            examples: examples_argument,
-            illustration: illustration_argument
-          ]
+            word:  word_argument
+            #TODO: add as flags for better UX
+            #description: description_argument,
+            #examples: examples_argument,
+            #illustration: illustration_argument
+          ],
         ],
         describe: [
           name: "describe",
@@ -97,7 +99,7 @@ defmodule Weber.CLI do
             illustration: Keyword.put(illustration_argument, :required, true)
           ]
         ],
-        add_synonym: [
+        synonym: [
           name: "synonym",
           about: "Adds a synonym to an existing word",
           args: [
@@ -110,7 +112,7 @@ defmodule Weber.CLI do
             ]
           ]
         ],
-        add_antonym: [
+        antonym: [
           name: "antonym",
           about: "Adds an antonym to an existing word",
           args: [
@@ -124,6 +126,9 @@ defmodule Weber.CLI do
           ]
         ]
       ]
-    ) |> Optimus.parse!(args) |> IO.inspect
+    ) |> Optimus.parse!(args)
+
+  IO.inspect commands
+  Weber.CLI.Executor.execute commands
   end
 end
