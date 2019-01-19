@@ -1,6 +1,7 @@
 defmodule Weber.CLI.Executor do
   def execute(optimusParseResult) do
     case optimusParseResult do
+        {[:show], %{args: %{word: nil}}} -> show()
         {[:show], %{args: %{word: word}}} -> show(word)
         {[:synonym], %{args: %{word: word, synonym: synonym}}} -> synonym(word, synonym)
         {[:antonym], %{args: %{word: word, antonym: antonym}}} -> antonym(word, antonym)
@@ -38,23 +39,53 @@ defmodule Weber.CLI.Executor do
       IO.puts "Example added"
     end
 
+
     defp show(word) do
-      #TODO: we do not care about queries numbers, as readmodel is fast
-      # and we can refactor it to one query easily
-
-          wordModel = Weber.Word.Queries.WordByNormalForm.new(word) |>
+      wordModel = Weber.Word.Queries.WordByNormalForm.new(word) |>
                             Weber.Projection.Repo.one()
+      synonyms =  Weber.Word.Queries.SynonymsByWord.new(word) |>
+                            Weber.Projection.Repo.all()
+      antonyms =  Weber.Word.Queries.AntonymsByWord.new(word) |>
+                            Weber.Projection.Repo.all()
 
-          IO.inspect wordModel
+      IO.puts "--- #{String.upcase(wordModel.normalForm)} ---"
+          IO.puts ""
+          if(wordModel.description != nil) do
+              IO.puts wordModel.description
+          else
+            IO.puts "* no description *"
+          end
 
-          Weber.Word.Queries.SynonymsByWord.new(word) |>
-                            Weber.Projection.Repo.one() |>
-                            IO.inspect
+          IO.puts ""
+          if(wordModel.examples != nil) do
+            IO.puts "-- examples --"
+            IO.puts wordModel.examples
+          else
+            IO.puts "* no examples *"
+          end
 
-          Weber.Word.Queries.AntonymsByWord.new(word) |>
-                            Weber.Projection.Repo.one() |>
-                            IO.inspect
+          IO.puts ""
+          case synonyms do
+           [] -> IO.puts "* no synonyms *"
+            _ -> IO.puts "-- synonyms --"
+                 Enum.each(synonyms, fn s -> IO.puts s.synonym end)
+          end
 
+          IO.puts ""
+          case antonyms do
+            [] -> IO.puts "* no antonyms *"
+            _  -> IO.puts "-- antonyms --"
+                 Enum.each(antonyms, fn s -> IO.puts s.antonyms end)
+          end
+    end
+
+    defp show() do
+      topWords = Weber.Word.Queries.TopWords.new() |>
+                         Weber.Projection.Repo.all()
+
+         IO.puts "--- Contents ---"
+         Enum.each(topWords, fn w -> IO.puts w.normalForm end)
+         :ok
     end
 
     defp illustrate(word, imagePath) do

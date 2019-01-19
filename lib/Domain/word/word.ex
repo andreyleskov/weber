@@ -6,7 +6,6 @@ defmodule Word do
              synonyms: [],
              antonyms: [],
             ]
-  alias Word.Commands
   alias Word.Events
   def execute(%Word{word: nil},
               %Word.Commands.Create{word: word, description: description})
