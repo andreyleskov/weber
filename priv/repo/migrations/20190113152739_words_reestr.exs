@@ -7,7 +7,7 @@ defmodule Weber.Repo.Migrations.WordsRegister do
       add :description, :text
       add :examples, :text
       add :illustration_binary, :binary
-      add :illustration_mime, :string
+      add :illustration_extension, :string
     end
   end
 end

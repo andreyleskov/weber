@@ -14,8 +14,8 @@ defmodule Weber.Projector.WordRegister do
     update_word(multi, word, description: description)
   end
 
-  project %Word.Events.Illustrated{word: word, illustration: %Word.Image{binary: binary, mime: mime}} do
-    update_word(multi, word, illustration_binary: binary, illustration_mime: mime)
+  project %Word.Events.Illustrated{word: word, illustration: %Word.Image{base64: base64, extension: extension}} do
+    update_word(multi, word, illustration_binary: Base.decode64!(base64), illustration_extension: extension)
   end
 
   defp update_word(multi, normalForm, changes) do

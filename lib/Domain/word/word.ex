@@ -1,8 +1,3 @@
-
-defmodule Word.Image do
-  defstruct [:mime, binary: <<0>>]
-end
-
 defmodule Word do
   defstruct [:word,
              :examples,
@@ -57,8 +52,8 @@ defmodule Word do
   end
 
   def execute(%Word{word: word, antonyms: antonyms},
-              %Word.Commands.Illustrate{word: word, illustration: %Word.Image{binary: binary, mime: mime} = illustration})
-  when word != nil and word == word and mime != "" and binary != nil and mime != nil
+              %Word.Commands.Illustrate{word: cword, illustration: %Word.Image{extension: extension, base64: base64} = illustration})
+  when word != nil and word == cword and extension != "" and base64 != nil
   do
     #TODO: place some illustration consistency check according to its MIME
     %Word.Events.Illustrated{word: word, illustration: illustration}

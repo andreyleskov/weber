@@ -6,6 +6,6 @@ defmodule Weber.Projection.WordRegister do
     field :description, :string
     field :examples, :string
     field :illustration_binary, :binary
-    field :illustration_mime, :string
+    field :illustration_extension, :string
   end
 end

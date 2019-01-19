@@ -7,11 +7,10 @@ defmodule Weber.CLI.Executor do
         {[:create], %{args: %{word: word}}} -> create(word)
         {[:describe], %{args: %{word: word, description: description}}} -> describe(word, description)
         {[:examples], %{args: %{word: word, examples: examples}}} -> example(word, examples)
-        {[:illustrate], %{args: %{word: word, illustration: illustration}}} ->
-          IO.puts "Illustrating word #{word} with image #{illustration}"
-        _ -> IO.puts "cannot understand commands"
+        {[:illustrate], %{args: %{word: word, illustration: illustration}}} -> illustrate(word, illustration)
+        _ -> IO.puts "cannot understand command"
     end
-    end
+  end
 
 
     defp describe(word, description) do
@@ -43,9 +42,10 @@ defmodule Weber.CLI.Executor do
       #TODO: we do not care about queries numbers, as readmodel is fast
       # and we can refactor it to one query easily
 
-          Weber.Word.Queries.WordByNormalForm.new(word) |>
-                           Weber.Projection.Repo.one() |>
-                           IO.inspect
+          wordModel = Weber.Word.Queries.WordByNormalForm.new(word) |>
+                            Weber.Projection.Repo.one()
+
+          IO.inspect wordModel
 
           Weber.Word.Queries.SynonymsByWord.new(word) |>
                             Weber.Projection.Repo.one() |>
@@ -54,7 +54,22 @@ defmodule Weber.CLI.Executor do
           Weber.Word.Queries.AntonymsByWord.new(word) |>
                             Weber.Projection.Repo.one() |>
                             IO.inspect
+
     end
+
+    defp illustrate(word, imagePath) do
+      case File.read imagePath do
+        {:ok, binary} ->
+          command = %Word.Commands.Illustrate{word: word,
+                                              illustration: %Word.Image{ base64: Base.encode64(binary),
+                                                                         extension: Path.extname(imagePath)}}
+          :ok = Weber.Router.dispatch(command, consistency: :strong)
+        {:error, error }->
+          IO.puts "Cannot find image under given path"
+          error
+      end
+    end
+
   end
 
 
