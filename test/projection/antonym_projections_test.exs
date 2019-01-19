@@ -21,8 +21,8 @@ defmodule Weber.Tests.Projection.Antonym do
     antonymProjection = Weber.Word.Queries.AntonymsByWord.new("run") |>
                         Weber.Projection.Repo.one()
 
-    assert wordProjection =
-       %Weber.Word.Projection.Antonym{word: "run", antonym: "stop"}
+    assert antonymProjection.word == "run"
+    assert antonymProjection.antonym == "stop"
 
   end
 

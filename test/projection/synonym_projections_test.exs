@@ -18,13 +18,11 @@ defmodule Weber.Tests.Projection.Synonym do
       assert event == expectedEvent
     end)
 
-   # :timer.sleep(1000);
-
     synonymProjection = Weber.Word.Queries.SynonymsByWord.new("run") |>
                         Weber.Projection.Repo.one()
 
-    assert wordProjection =
-       %Weber.Word.Projection.Synonym{word: "run", synonym: "dash"}
+    assert synonymProjection.word == "run"
+    assert synonymProjection.synonym == "dash"
 
   end
 
