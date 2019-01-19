@@ -13,32 +13,49 @@ defmodule Weber.CLI.Executor do
     end
   end
 
+    defp word_exist(word) do
+      nil != Weber.Word.Queries.WordExists.new(word) |>
+                Weber.Projection.Repo.one()
+    end
+
+    defp create_if_not_exist(word) do
+      unless( word_exist(word)) do
+        create(word)
+      end
+    end
 
     defp describe(word, description) do
+      create_if_not_exist(word)
       :ok = Weber.Router.dispatch(%Word.Commands.Describe{word: word, description: description}, consistency: :strong)
       IO.puts "Described"
     end
 
     defp create(word) do
       :ok = Weber.Router.dispatch(%Word.Commands.Create{word: word}, consistency: :strong)
-      IO.puts "Created"
+      IO.puts "Created word #{word}"
     end
 
     defp synonym(word, synonym) do
+      create_if_not_exist(word)
+      create_if_not_exist(synonym)
       :ok = Weber.Router.dispatch(%Word.Commands.AddSynonym{word: word, synonym: synonym}, consistency: :strong)
+      :ok = Weber.Router.dispatch(%Word.Commands.AddSynonym{word: synonym, synonym: word}, consistency: :strong)
       IO.puts "Synonym added"
     end
 
     defp antonym(word, antonym) do
+      create_if_not_exist(word)
+      create_if_not_exist(antonym)
       :ok = Weber.Router.dispatch(%Word.Commands.AddAntonym{word: word, antonym: antonym}, consistency: :strong)
+      :ok = Weber.Router.dispatch(%Word.Commands.AddAntonym{word: antonym, antonym: word}, consistency: :strong)
       IO.puts "Antonym added"
     end
 
     defp example(word, example) do
+      create_if_not_exist(word)
       :ok = Weber.Router.dispatch(%Word.Commands.ProvideExamples{word: word, examples: example}, consistency: :strong)
       IO.puts "Example added"
     end
-
 
     defp show(word) do
       wordModel = Weber.Word.Queries.WordByNormalForm.new(word) |>
@@ -75,7 +92,7 @@ defmodule Weber.CLI.Executor do
           case antonyms do
             [] -> IO.puts "* no antonyms *"
             _  -> IO.puts "-- antonyms --"
-                 Enum.each(antonyms, fn s -> IO.puts s.antonyms end)
+                 Enum.each(antonyms, fn s -> IO.puts s.antonym end)
           end
     end
 

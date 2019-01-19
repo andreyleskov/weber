@@ -10,6 +10,8 @@ defmodule Weber.CLI do
 
   type ./weber --help to get a full description
 
+  during execution of any command uknown words will be created
+
   ## Examples
 
       > ./weber create hello "a common welcome"
@@ -24,7 +26,7 @@ defmodule Weber.CLI do
   def main(args \\ []) do
     examples_argument =
     [
-      value_name: "examples",
+      value_name: "<examples>",
       help: "Examples for word usage",
       required: false,
       parser: :string
@@ -32,7 +34,7 @@ defmodule Weber.CLI do
 
     description_argument =
     [
-      value_name: "description",
+      value_name: "<description>",
       help: "Word's description",
       required: false,
       parser: :string
@@ -40,7 +42,7 @@ defmodule Weber.CLI do
 
     word_argument =
     [
-      value_name: "word",
+      value_name: "<word>",
       help: "Word's normal form",
       required: true,
       parser: :string
@@ -59,15 +61,21 @@ defmodule Weber.CLI do
       description: "A simple dictionary application",
       version: "1.0.0",
       author: "andrey.leskov@gmail.com",
-      about: "Utility to create and use a dictionery storing information in PostgreSQL",
+      about: "Utility to create and use a dictionary storing information in PostgreSQL.
+all commands will add uknown words to the dictionary",
       allow_unknown_args: false,
       parse_double_dash: true,
       subcommands: [
         show: [
           name: "show",
-          about: "Display information about a word or available words in dictionaty",
+          about: "Display information about a word or dictionary content",
           args: [
-            word:  Keyword.put(word_argument, :required, false)
+            word:  [
+              value_name: "<word>",
+              help: "Word's normal form. If not presented, command will display dictionary content",
+              required: true,
+              parser: :string
+            ]
           ],
         ],
         create: [
@@ -75,15 +83,11 @@ defmodule Weber.CLI do
           about: "Creates a new word",
           args: [
             word:  word_argument
-            #TODO: add as flags for better UX
-            #description: description_argument,
-            #examples: examples_argument,
-            #illustration: illustration_argument
           ],
         ],
         describe: [
           name: "describe",
-          about: "Describes an existing word",
+          about: "Describes a word",
           args: [
             word: word_argument,
             description: Keyword.put(description_argument, :required, true)
@@ -91,7 +95,7 @@ defmodule Weber.CLI do
         ],
         examples: [
           name: "examples",
-          about: "Provide examples for an existing word",
+          about: "Provide examples for a word",
           args: [
             word: word_argument,
             examples: Keyword.put(examples_argument, :required, true)
@@ -99,7 +103,7 @@ defmodule Weber.CLI do
         ],
         illustrate: [
           name: "illustrate",
-          about: "Provide an illustration for an existing word",
+          about: "Add an illustration for a word",
           args: [
             word: word_argument,
             illustration: Keyword.put(illustration_argument, :required, true)
@@ -107,12 +111,12 @@ defmodule Weber.CLI do
         ],
         synonym: [
           name: "synonym",
-          about: "Adds a synonym to an existing word",
+          about: "Adds a synonym to a word",
           args: [
             word: word_argument,
             synonym: [
-              value_name: "synonym",
-              help: "A word to add as a synonym to current word",
+              value_name: "<synonym>",
+              help: "A word to add as a synonym",
               required: true,
               parser: :string
             ]
@@ -120,12 +124,12 @@ defmodule Weber.CLI do
         ],
         antonym: [
           name: "antonym",
-          about: "Adds an antonym to an existing word",
+          about: "Adds an antonym to a word",
           args: [
             word: word_argument,
             antonym: [
-              value_name: "antonym",
-              help: "A word to add as an antonym to current word",
+              value_name: "<antonym>",
+              help: "A word to add as an antonym",
               required: true,
               parser: :string
             ]
