@@ -1,9 +1,12 @@
 # Weber
 
-Weber is an assesmenet task used to demonstrate coding skills for Elixir and some practicies, like DDD, ES, and CQRS
+Weber is an assesmenet task used to demonstrate coding skills in Elixir 
+as well as some practicies, like DDD, ES, and CQRS
 It is a command line-based dictionary application, similar to https://www.merriam-webster.com/
-Functionalty available:
 
+Weber provides a simple functionality
+
+* Add new word entries and fill it with information
 * Look up a word and show some explanations
 * Show example sentences 
 * Show synonyms and antonyms 
@@ -20,8 +23,8 @@ Functionalty available:
 
 ### Setup
 1) Check out latest master branch
-2) Update postgreSQL config in config/config.exs
- there are two entries: 
+2) Update PostgreSQL config in config/config.exs.
+   There are two entries: 
  * Jornal (write model) 
     ```elixir
     config :eventstore, EventStore.Storage,
@@ -39,25 +42,29 @@ Functionalty available:
             password: "postgres",
             hostname: "localhost"
     ```
-    Please configure different databases for each entry to avoid conflicts during ecto migrations 
+    Please use two different databases for Journal and Projections to avoid conflicts during ecto migrations 
+
 3) Initialize databases by running commands 
     ```
-    mix ecto.migrate
+    mix do ecto.create, ecto.migrate
     mix do event_store.create, event_store.init 
     ```
-4) Seed example data
-    ```
-    ./seed.sh
-    ```
-5) Compile project 
+4) Compile project 
     ```
     MIX_ENV=prod mix escript.build
     ```
     If you prefer development configuration and want to see some internal logs, 
-  compile project as 
+    please compile project for Dev environment 
     ```
     mix escript.build
     ```
+
+5) Seed example data
+    ```
+    ./seed.sh
+    ```
+   Seed script will use weber app to fill the data into database
+
 6) Run application and read help
 
     ```
@@ -69,17 +76,7 @@ Functionalty available:
 7) Try some predifined words like 
   ```
    ./weber show horse 
-  ```
-  or
-  ```
    ./weber show absent 
-  ```
-  or 
-  ```
-   ./weber show example 
-  ```
-  or 
-  ```
    ./weber show cat
   ```  
 8) To clean up database just run tests

@@ -12,6 +12,6 @@ a war bonnet that is a fine example of Native American handicraft
 
 #curl https://agilepainrelief.com/wp-content/uploads/2011/07/photodune-9297562-example-stamp-xs.jpg?w=640 > example.gif
 
-./weber illustrate example seed/example.jpg
+./weber illustrate example seed/example.gif
 
 
