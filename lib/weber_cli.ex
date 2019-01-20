@@ -73,7 +73,7 @@ all commands will add uknown words to the dictionary",
             word:  [
               value_name: "<word>",
               help: "Word's normal form. If not presented, command will display dictionary content",
-              required: true,
+              required: false,
               parser: :string
             ]
           ],

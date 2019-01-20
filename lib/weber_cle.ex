@@ -94,6 +94,13 @@ defmodule Weber.CLI.Executor do
             _  -> IO.puts "-- antonyms --"
                  Enum.each(antonyms, fn s -> IO.puts s.antonym end)
           end
+
+          IO.puts ""
+          if(wordModel.illustration_binary != nil) do
+            IO.puts "has an #{wordModel.illustration_extension} illustration"
+          else
+            IO.puts "* no illustration *"
+          end
     end
 
     defp show() do
