@@ -60,19 +60,28 @@ defmodule Weber.CLI.Executor do
     defp show(word) do
 
       if(word == nil) do
-         Weber.Router.dispatch(%Lookup.Commands.ShowWord{word: :contents})
+         Weber.Router.dispatch(%Lookup.Commands.ShowWord{word: :dictionary_contents}, consistency: :strong)
       else
-         Weber.Router.dispatch(%Lookup.Commands.ShowWord{word: word})
+         Weber.Router.dispatch(%Lookup.Commands.ShowWord{word: word}, consistency: :strong)
       end
 
       wordModel = Weber.Word.Queries.WordByNormalForm.new(word) |>
                             Weber.Projection.Repo.one()
-      synonyms =  Weber.Word.Queries.SynonymsByWord.new(word) |>
-                            Weber.Projection.Repo.all()
-      antonyms =  Weber.Word.Queries.AntonymsByWord.new(word) |>
-                            Weber.Projection.Repo.all()
 
-      IO.puts "--- #{String.upcase(wordModel.normalForm)} ---"
+
+      if(wordModel == nil) do
+         IO.puts "No entry for '#{word}'"
+      else
+        synonyms =  Weber.Word.Queries.SynonymsByWord.new(word) |>
+                    Weber.Projection.Repo.all()
+
+        antonyms =  Weber.Word.Queries.AntonymsByWord.new(word) |>
+                    Weber.Projection.Repo.all()
+
+        lookup_history = Weber.Lookup.Queries.TotalViews.new(word) |>
+                         Weber.Projection.Repo.one()
+
+          IO.puts "--- #{String.upcase(wordModel.normalForm)} ---"
           IO.puts ""
           if(wordModel.description != nil) do
               IO.puts wordModel.description
@@ -118,6 +127,15 @@ defmodule Weber.CLI.Executor do
           else
             IO.puts "* no illustration *"
           end
+
+        if(lookup_history != nil) do
+          IO.puts "-- Lookup statistics --"
+          IO.puts "#{lookup_history.total_views} total views"
+          IO.puts "last searched at #{lookup_history.occured_at}"
+        else
+          IO.puts "* no lookup history *"
+        end
+      end
     end
 
     defp show() do

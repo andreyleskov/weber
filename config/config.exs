@@ -24,3 +24,6 @@ config :eventstore, EventStore.Storage,
   database: "weber_dev",
   hostname: "localhost",
   pool_size: 10
+
+  import_config "#{Mix.env}.exs"
+

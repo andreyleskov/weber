@@ -14,8 +14,6 @@ defmodule Weber.Application do
   """
   def start(type, args) do
     import Supervisor.Spec
-    IO.puts "starting the app"
-
     children = [
       supervisor(Weber.Projection.Repo, []),
       supervisor(Weber.Word.Supervisor, []),
