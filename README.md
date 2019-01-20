@@ -65,5 +65,20 @@ Functionalty available:
     ```
 
    Some 3dparty libraries used in weber will pollute console output with IO.warn messages. Please send me a message or create a new issue if you know how to suppress  it for production environment.
-  
-    
+
+7) Try some predifined words like 
+  ```
+   ./weber show horse 
+  ```
+  or
+  ```
+   ./weber show absent 
+  ```
+  or 
+  ```
+   ./weber show example 
+  ```
+  or 
+  ```
+   ./weber show cat
+  ```  
