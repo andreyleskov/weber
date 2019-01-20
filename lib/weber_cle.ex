@@ -58,6 +58,13 @@ defmodule Weber.CLI.Executor do
     end
 
     defp show(word) do
+
+      if(word == nil) do
+         Weber.Router.dispatch(%Lookup.Commands.ShowWord{word: :contents})
+      else
+         Weber.Router.dispatch(%Lookup.Commands.ShowWord{word: word})
+      end
+
       wordModel = Weber.Word.Queries.WordByNormalForm.new(word) |>
                             Weber.Projection.Repo.one()
       synonyms =  Weber.Word.Queries.SynonymsByWord.new(word) |>
