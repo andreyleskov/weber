@@ -43,6 +43,7 @@ defmodule Weber.Tests.Storage do
       word_register,
       synonyms,
       antonyms,
+      lookup_history,
       projection_versions
     RESTART IDENTITY
     CASCADE;

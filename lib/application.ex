@@ -18,7 +18,8 @@ defmodule Weber.Application do
 
     children = [
       supervisor(Weber.Projection.Repo, []),
-      supervisor(Weber.Word.Supervisor, [])
+      supervisor(Weber.Word.Supervisor, []),
+      supervisor(Weber.Lookup.Supervisor, [])
     ]
 
     opts = [strategy: :one_for_one,

@@ -2,7 +2,6 @@ defmodule Weber.Tests.Projection.Synonym do
   use ExUnit.Case
   use Weber.Tests.DataCase
   import Commanded.Assertions.EventAssertions
-  alias Weber.Word.Queries.WordByNormalForm
 
   @tag :projection
   @tag :synonym

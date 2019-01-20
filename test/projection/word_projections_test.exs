@@ -18,8 +18,8 @@ defmodule Weber.Tests.Integration.WordProjection do
     wordProjection = WordByNormalForm.new("testMe") |>
                      Weber.Projection.Repo.one()
 
-    assert wordProjection =
-       %Weber.Projection.WordRegister{normalForm: "testMe", description: "En"}
+    assert wordProjection.normalForm == "testMe"
+    assert wordProjection.description == "En"
 
   end
 
@@ -62,7 +62,7 @@ defmodule Weber.Tests.Integration.WordProjection do
   @tag :illustration
   test "Given a word AND illustrate command When executing Then receive event And illustration updated" do
     :ok = Weber.Router.dispatch(%Word.Commands.Create{word: "best"}, consistency: :strong)
-    illustration = %Word.Image{base64: "123ABCD", extension: "none"}
+    illustration = %Word.Image{base64: "", extension: "none"}
     :ok = Weber.Router.dispatch(%Word.Commands.Illustrate{word: "best", illustration: illustration}, consistency: :strong)
 
     assert_receive_event(Word.Events.Illustrated, fn event ->

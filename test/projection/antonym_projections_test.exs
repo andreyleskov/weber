@@ -2,7 +2,6 @@ defmodule Weber.Tests.Projection.Antonym do
   use ExUnit.Case
   use Weber.Tests.DataCase
   import Commanded.Assertions.EventAssertions
-  alias Weber.Word.Queries
 
   @tag :projection
   @tag :antonym
