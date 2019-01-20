@@ -4,24 +4,66 @@ Weber is an assesmenet task used to demonstrate coding skills for Elixir and som
 It is a command line-based dictionary application, similar to https://www.merriam-webster.com/
 Functionalty available:
 
-1) Look up a word and show some explanations
-2) Show example sentences 
-3) Show synonyms and antonyms 
-4) Record lookup history in PostgreSQL
-5) Show illustrations 
+* Look up a word and show some explanations
+* Show example sentences 
+* Show synonyms and antonyms 
+* Record lookup history in PostgreSQL
+* Show illustrations 
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `weber` to your list of dependencies in `mix.exs`:
+## Setup guide 
 
-```elixir
-def deps do
-  [
-    {:weber, "~> 0.1.0"}
-  ]
-end
-```
+### Prerequirements 
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/weber](https://hexdocs.pm/weber).
+* PostgreSQL
+* ImageMagick
+(you can check ImageMagick availability by running 'display' command in shell)
 
+### Setup
+1) Check out latest master branch
+2) Update postgreSQL config in config/config.exs
+ there are two entries: 
+ * Jornal (write model) 
+    ```elixir
+    config :eventstore, EventStore.Storage,
+        serializer: Commanded.Serialization.JsonSerializer,
+        username: "postgres",
+        password: "postgres",
+        database: "weber_dev",
+        hostname: "localhost",
+    ```
+ * Projections (read model)
+    ```elixir
+        config :weber, Weber.Projection.Repo,
+            database: "weber_read",
+            username: "postgres",
+            password: "postgres",
+            hostname: "localhost"
+    ```
+    Please configure different databases for each entry to avoid conflicts during ecto migrations 
+3) Initialize databases by running commands 
+    ```
+    mix ecto.migrate
+    mix do event_store.create, event_store.init 
+    ```
+4) Seed example data
+    ```
+    ./seed.sh
+    ```
+5) Compile project 
+    ```
+    MIX_ENV=prod mix escript.build
+    ```
+    If you prefer development configuration and want to see some internal logs, 
+  compile project as 
+    ```
+    mix escript.build
+    ```
+6) Run application and read help
+
+    ```
+    ./weber --help
+    ```
+
+   Some 3dparty libraries used in weber will pollute console output with IO.warn messages. Please send me a message or create a new issue if you know how to suppress  it for production environment.
+  
+    
