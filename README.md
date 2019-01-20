@@ -82,3 +82,7 @@ Functionalty available:
   ```
    ./weber show cat
   ```  
+8) To clean up database just run tests
+  ```
+  mix test
+  ```
