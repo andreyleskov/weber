@@ -98,6 +98,16 @@ defmodule Weber.CLI.Executor do
           IO.puts ""
           if(wordModel.illustration_binary != nil) do
             IO.puts "has an #{wordModel.illustration_extension} illustration"
+            fileName = "#{wordModel.normalForm}#{wordModel.illustration_extension}"
+
+            case File.read fileName do
+              {:ok, _} ->
+                System.cmd("display",[fileName] )
+              {:error, _ }->
+                File.write(fileName, wordModel.illustration_binary)
+                System.cmd("display", [fileName] )
+            end
+
           else
             IO.puts "* no illustration *"
           end
